@@ -1,0 +1,20 @@
+
+# --- Compiled Java Files ---
+*.class
+*.jar
+*.war
+
+# --- macOS System Files ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- IDE Settings (Eclipse, IntelliJ, NetBeans, VS Code) ---
+.project
+.classpath
+.settings/
+.idea/
+*.iml
+.vscode/
+bin/
+out/
