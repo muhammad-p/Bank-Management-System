@@ -1,7 +1,7 @@
 package model;
 
 public class UserAccount {
-    private final String username;
+    public final String username;
     private String password;
     private double balance;
     private final long accountNumber;
@@ -30,6 +30,16 @@ public class UserAccount {
     public void setBalance(double bal)
     {
         this.balance=bal;
+    }
+    
+    
+    public String toCSVrow()
+    {
+        return String.format("%s,%s,%.2f,%d",
+        this.username,
+        this.password,
+        this.balance,
+        this.accountNumber);
     }
 
 }
