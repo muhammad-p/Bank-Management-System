@@ -1,8 +1,8 @@
 package exception;
 
 public class UserAlreadyExistsException extends Exception{
-    public UserAlreadyExistsException()
+    public UserAlreadyExistsException(String message)
     {
-        System.out.println("This username already exists. Please try again with a different username.");
+        super(message);
     }
 }
