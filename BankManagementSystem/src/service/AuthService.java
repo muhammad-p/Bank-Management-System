@@ -10,7 +10,7 @@ import model.UserAccount;
 
 public class AuthService {
 
-    final String csvFile = "users.csv";
+    final String csvFile = "data/users.csv";
     final Map<String, UserAccount> userCache = new HashMap<>();
 
     public Map<String, UserAccount> loadCSV() throws IOException {
@@ -47,7 +47,10 @@ public class AuthService {
     }
 
 
-    public void registerUser(String username, String password) throws UserAlreadyExistsException, IOException {
+    public UserAccount registerUser(String username, String password) throws RequiredFieldsEmptyException, UserAlreadyExistsException, IOException {
+
+        if(username.isEmpty() || password.isEmpty() )
+            throw new RequiredFieldsEmptyException("Please fill in all fields.");
 
         if(userCache.containsKey(username))
             throw new UserAlreadyExistsException("This username already exists. Please try again with a different one.");
@@ -69,16 +72,19 @@ public class AuthService {
         UserAccount newAccount=new UserAccount(username, password, 0, newAccountNumber);
         userCache.put(username, newAccount);
         updateCSV();
+        return newAccount;
 
     }
 
-    public void loginUser(String enteredUsername, String enteredPassword) throws UserNotFoundException, InvalidCredentialsException {
+    public void loginUser(String enteredUsername, String enteredPassword) throws RequiredFieldsEmptyException,InvalidCredentialsException,UserNotFoundException {
+        if(enteredUsername.isEmpty() || enteredPassword.isEmpty())
+            throw new RequiredFieldsEmptyException("Please fill in all fields.");
         if(!userCache.containsKey(enteredUsername))
             throw new UserNotFoundException("User is not registered. Please recheck username and try again.");
 
         UserAccount account=userCache.get(enteredUsername);
         boolean isPasswordValid = account.verifyPassword(enteredPassword);
-        if(!isPasswordValid)
+        if(isPasswordValid==false)
             throw new InvalidCredentialsException("The password is incorrect.");
         
 
