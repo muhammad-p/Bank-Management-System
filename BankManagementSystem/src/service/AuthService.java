@@ -20,7 +20,7 @@ public class AuthService {
         String line;
 
         while ((line = br.readLine()) != null) {
-            if (line.trim() == null)
+            if (line.trim().equals("")) //bug
                 continue;
 
             String[] data = line.split(",");
@@ -47,14 +47,14 @@ public class AuthService {
     }
 
 
-    void registerUser(String username, String password) throws UserAlreadyExistsException, IOException {
+    public void registerUser(String username, String password) throws UserAlreadyExistsException, IOException {
 
         if(userCache.containsKey(username))
             throw new UserAlreadyExistsException("This username already exists. Please try again with a different one.");
         boolean isDuplicate=false;
         long newAccountNumber;
         do {
-            newAccountNumber = 1_000_000_000L + (long)Math.random() * 9_000_000_000L;
+            newAccountNumber = 1_000_000_000L + (long)(Math.random() * 9_000_000_000L); 
             for(UserAccount existingUser: userCache.values() )
             {
                 if(existingUser.getAccountNumber()==newAccountNumber)
@@ -72,15 +72,15 @@ public class AuthService {
 
     }
 
-    void loginUser(String enteredUsername, String enteredPassword) throws UserNotFoundException, InvalidCredentialsException {
+    public void loginUser(String enteredUsername, String enteredPassword) throws UserNotFoundException, InvalidCredentialsException {
         if(!userCache.containsKey(enteredUsername))
             throw new UserNotFoundException("User is not registered. Please recheck username and try again.");
 
         UserAccount account=userCache.get(enteredUsername);
         boolean isPasswordValid = account.verifyPassword(enteredPassword);
         if(!isPasswordValid)
-            throw new InvalidCredentialsException("The entered password is incorrect.");
+            throw new InvalidCredentialsException("The password is incorrect.");
         
-        
+
     }
 }
