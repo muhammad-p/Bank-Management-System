@@ -69,12 +69,12 @@ public class AuthWindow {
 
             try {
 
-                auth.loginUser(username, password);
+                UserAccount user=auth.loginUser(username, password);
 
-                JOptionPane.showMessageDialog(frame, "Login Successful, welcome back, " + username + "!");
+                JOptionPane.showMessageDialog(frame, "Login Successful. Redirecting to dashboard... ");
 
                 frame.dispose();
-                new DashboardWindow();
+                new DashboardWindow(user,auth);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, ex.getMessage(), "Login Failed", JOptionPane.ERROR_MESSAGE);
