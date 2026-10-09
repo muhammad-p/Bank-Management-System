@@ -76,7 +76,7 @@ public class AuthService {
 
     }
 
-    public void loginUser(String enteredUsername, String enteredPassword) throws RequiredFieldsEmptyException,InvalidCredentialsException,UserNotFoundException {
+    public UserAccount loginUser(String enteredUsername, String enteredPassword) throws RequiredFieldsEmptyException,InvalidCredentialsException,UserNotFoundException {
         if(enteredUsername.isEmpty() || enteredPassword.isEmpty())
             throw new RequiredFieldsEmptyException("Please fill in all fields.");
         if(!userCache.containsKey(enteredUsername))
@@ -86,7 +86,7 @@ public class AuthService {
         boolean isPasswordValid = account.verifyPassword(enteredPassword);
         if(isPasswordValid==false)
             throw new InvalidCredentialsException("The password is incorrect.");
-        
+        return account;
 
     }
 }
