@@ -15,6 +15,7 @@ public class AuthWindow {
     JButton loginButton, registerButton;
     JTextField usernameField,regUsernameField, confirmPasswordField;
     JPasswordField passwordField, regPasswordField;
+    Font font = new Font("Arial", Font.PLAIN, 15);
 
 
     public AuthWindow(AuthService auth) {
@@ -25,8 +26,9 @@ public class AuthWindow {
         loginPanel = new JPanel(new GridLayout(8, 2, 10, 30));
         loginPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-
-        loginPanel.add(new JLabel("               New user? Register here:"));
+        JLabel newUserLabel=new JLabel("            New user? Register here:");
+        newUserLabel.setFont(font);
+        loginPanel.add(newUserLabel);
         registerButton = new JButton("Register");
         loginPanel.add(registerButton);
 
@@ -39,11 +41,15 @@ public class AuthWindow {
 
         loginPanel.add(new JLabel(""));
 
-        loginPanel.add(new JLabel("                            Username:"));
+        JLabel usernameLabel=new JLabel("                      Username:");
+        usernameLabel.setFont(font);
+        loginPanel.add(usernameLabel);
         usernameField = new JTextField();
         loginPanel.add(usernameField);
 
-        loginPanel.add(new JLabel("                            Password:"));
+        JLabel passwordLabel=new JLabel("                      Password:");
+        passwordLabel.setFont(font);
+        loginPanel.add(passwordLabel);
         passwordField = new JPasswordField();
         loginPanel.add(passwordField);
 
@@ -68,9 +74,6 @@ public class AuthWindow {
             try {
 
                 UserAccount user=auth.loginUser(username, password);
-
-                JOptionPane.showMessageDialog(frame, "Login Successful. Redirecting to dashboard... ");
-
                 frame.dispose();
                 new DashboardWindow(user,auth);
 
@@ -85,8 +88,9 @@ public class AuthWindow {
             registerPanel = new JPanel(new GridLayout(8, 2, 10, 30));
             registerPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-   
-            registerPanel.add(new JLabel("               Already a user? Login here:"));
+            JLabel loginUserLabel=new JLabel("               Already a user? Login here:");
+            loginUserLabel.setFont(font);
+            registerPanel.add(loginUserLabel);
             loginButton = new JButton("Login");
             registerPanel.add(loginButton);
 
@@ -98,15 +102,21 @@ public class AuthWindow {
             ll.setFont(new Font("Arial", Font.PLAIN, 24));
             registerPanel.add(new JLabel(""));
 
-            registerPanel.add(new JLabel("                            Username:"));
+            JLabel regUsernameLabel = new JLabel("                      Username:");
+            regUsernameLabel.setFont(font);
+            registerPanel.add(regUsernameLabel);
             regUsernameField = new JTextField();
             registerPanel.add(regUsernameField);
 
-            registerPanel.add(new JLabel("                            Password:"));
+            JLabel regPasswordLabel =new JLabel("                      Password:");
+            regPasswordLabel.setFont(font);
+            registerPanel.add(regPasswordLabel);
             regPasswordField = new JPasswordField();
             registerPanel.add(regPasswordField);
 
-            registerPanel.add(new JLabel("                            Confirm Password:"));
+            JLabel confirmPasswordLabel =new JLabel("                      Confirm Password:");
+            confirmPasswordLabel.setFont(font);
+            registerPanel.add(confirmPasswordLabel);
             confirmPasswordField = new JTextField();
             registerPanel.add(confirmPasswordField);
 
