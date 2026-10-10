@@ -6,12 +6,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-
-
 import javax.swing.*;
-
 import model.UserAccount;
 import service.AuthService;
+import service.DashboardService;
 
 public class DashboardWindow {
     JFrame frame;
@@ -20,6 +18,9 @@ public class DashboardWindow {
             logOutButton, backButton;
 
     public DashboardWindow(UserAccount user, AuthService auth) {
+
+        DashboardService dashboardService = new DashboardService(user, auth);
+
         frame = new JFrame("Dashboard");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,7 +29,7 @@ public class DashboardWindow {
 
         // north component
         northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 3));
-        backButton=new JButton("<-");
+        backButton = new JButton("<-");
         northPanel.add(backButton);
         backButton.setVisible(false);
         JLabel welcomeMessage = new JLabel("WELCOME BACK, " + user.getUsername() + "!");
@@ -88,16 +89,15 @@ public class DashboardWindow {
         centerPanel.setVisible(true);
 
         // withdraw - card panel
-        
+
         JLabel balance = new JLabel("                          Balance: " + user.getBalance());
         balance.setFont(font);
         JPanel withdrawPanel = new JPanel(new GridLayout(0, 2));
-        JLabel withdrawLabel=new JLabel("                    Enter amount to withdraw: ");
+        JLabel withdrawLabel = new JLabel("                    Enter amount to withdraw: ");
         withdrawLabel.setFont(font);
-        JTextField withdrawAmount=new JTextField();
+        JTextField withdrawAmount = new JTextField();
         withdrawButton = new JButton("Confirm");
 
-        
         withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(new JLabel(""));
@@ -119,22 +119,16 @@ public class DashboardWindow {
         withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(new JLabel(""));
 
-
-
-
-
-
-
         withdrawPanel.setVisible(true);
         centerPanel.add(withdrawPanel, "WITHDRAW_PANEL");
 
         // deposit- card Panel
         JPanel depositPanel = new JPanel(new GridLayout(0, 2));
 
-        JLabel depositLabel=new JLabel("                     Enter amount to deposit:");
+        JLabel depositLabel = new JLabel("                     Enter amount to deposit:");
         depositLabel.setFont(font);
-        JTextField depositAmount=new JTextField();
-        depositButton=new JButton("Confirm");
+        JTextField depositAmount = new JTextField();
+        depositButton = new JButton("Confirm");
         depositPanel.add(new JLabel(""));
         depositPanel.add(new JLabel(""));
         depositPanel.add(new JLabel(""));
@@ -179,15 +173,41 @@ public class DashboardWindow {
             backButton.setVisible(true);
             cardLayout.show(centerPanel, "DEPOSIT_PANEL");
         });
-        backButton.addActionListener(e->
-            {
-                welcomeMessage.setVisible(true);
-                backButton.setVisible(false);
-                cardLayout.show(centerPanel, "INSIGHTS_PANEL");
+        backButton.addActionListener(e -> {
+            welcomeMessage.setVisible(true);
+            backButton.setVisible(false);
+            cardLayout.show(centerPanel, "INSIGHTS_PANEL");
+        });
+        withdrawButton.addActionListener(e -> {
+            try {
+                String amount = withdrawAmount.getText();
+                dashboardService.withdraw(amount);
+                balance.setText("                          Balance: " + user.getBalance());
+                balLabel.setText("                  Balance: " + user.getBalance());
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(centerPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        );
+
+        });
+        depositButton.addActionListener(e -> {
+            try {
+                String amount = depositAmount.getText();
+                dashboardService.deposit(amount);
+                balance.setText("                          Balance: " + user.getBalance());
+                balLabel.setText("                  Balance: " + user.getBalance());
+            } 
+            catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(centerPanel, "Enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(centerPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        });
+
         // transferPanelButton.addActionListener(e -> {
-        //     cardLayout.show(centerPanel, "TRANSFER_PANEL");
+        // cardLayout.show(centerPanel, "TRANSFER_PANEL");
         // });
 
         mainDashboardPanel.setVisible(true);
