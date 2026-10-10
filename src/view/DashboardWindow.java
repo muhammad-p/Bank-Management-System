@@ -27,11 +27,13 @@ public class DashboardWindow {
         mainDashboardPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 25, 30));
 
         // north component
-        northPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 3));
+        northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 3));
+        backButton=new JButton("<-");
+        northPanel.add(backButton);
+        backButton.setVisible(false);
         JLabel welcomeMessage = new JLabel("WELCOME BACK, " + user.getUsername() + "!");
         welcomeMessage.setFont(new Font("Arial", Font.PLAIN, 23));
         northPanel.add(welcomeMessage);
-        backButton = new JButton("Back");
         mainDashboardPanel.add(northPanel, BorderLayout.NORTH);
 
         // west component (sidebar)
@@ -87,7 +89,7 @@ public class DashboardWindow {
 
         // withdraw - card panel
         
-        JLabel balance = new JLabel("                    Balance: " + user.getBalance());
+        JLabel balance = new JLabel("                          Balance: " + user.getBalance());
         balance.setFont(font);
         JPanel withdrawPanel = new JPanel(new GridLayout(0, 2));
         JLabel withdrawLabel=new JLabel("                    Enter amount to withdraw: ");
@@ -95,6 +97,9 @@ public class DashboardWindow {
         JTextField withdrawAmount=new JTextField();
         withdrawButton = new JButton("Confirm");
 
+        
+        withdrawPanel.add(new JLabel(""));
+        withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(balance);
@@ -102,7 +107,11 @@ public class DashboardWindow {
         withdrawPanel.add(withdrawLabel);
         withdrawPanel.add(withdrawAmount);
         withdrawPanel.add(new JLabel(""));
+        withdrawPanel.add(new JLabel(""));
+        withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(withdrawButton);
+        withdrawPanel.add(new JLabel(""));
+        withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(new JLabel(""));
         withdrawPanel.add(new JLabel(""));
@@ -120,10 +129,33 @@ public class DashboardWindow {
         centerPanel.add(withdrawPanel, "WITHDRAW_PANEL");
 
         // deposit- card Panel
-        JLabel bal = new JLabel("                      Balance: " + user.getBalance());
-        bal.setFont(font);
         JPanel depositPanel = new JPanel(new GridLayout(0, 2));
-        depositPanel.add(bal);
+
+        JLabel depositLabel=new JLabel("                     Enter amount to deposit:");
+        depositLabel.setFont(font);
+        JTextField depositAmount=new JTextField();
+        depositButton=new JButton("Confirm");
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(depositLabel);
+        depositPanel.add(depositAmount);
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(depositButton);
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+        depositPanel.add(new JLabel(""));
+
         depositPanel.setVisible(true);
         centerPanel.add(depositPanel, "DEPOSIT_PANEL");
 
@@ -138,11 +170,22 @@ public class DashboardWindow {
             }
         });
         withdrawPanelButton.addActionListener(e -> {
+            welcomeMessage.setVisible(false);
+            backButton.setVisible(true);
             cardLayout.show(centerPanel, "WITHDRAW_PANEL");
         });
         depositPanelButton.addActionListener(e -> {
+            welcomeMessage.setVisible(false);
+            backButton.setVisible(true);
             cardLayout.show(centerPanel, "DEPOSIT_PANEL");
         });
+        backButton.addActionListener(e->
+            {
+                welcomeMessage.setVisible(true);
+                backButton.setVisible(false);
+                cardLayout.show(centerPanel, "INSIGHTS_PANEL");
+            }
+        );
         // transferPanelButton.addActionListener(e -> {
         //     cardLayout.show(centerPanel, "TRANSFER_PANEL");
         // });
