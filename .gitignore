@@ -18,6 +18,7 @@
 .vscode/
 bin/
 out/
+.bin/
 
 data/*
 !data/users.csv
