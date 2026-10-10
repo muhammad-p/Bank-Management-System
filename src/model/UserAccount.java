@@ -44,7 +44,7 @@ public class UserAccount {
         this.accountNumber);
     }
 
-    public void addToBalance(int amount) //amount value will be negative for withdrawals and transfer and positive for deposit
+    public void addToBalance(double amount) //amount value will be negative for withdrawals and transfer and positive for deposit
     {
         this.balance+=amount;
     }
