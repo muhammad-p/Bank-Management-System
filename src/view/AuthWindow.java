@@ -20,13 +20,11 @@ public class AuthWindow {
     public AuthWindow(AuthService auth) {
         frame = new JFrame("Net-Banking");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 700);
+        frame.setSize(800, 600);
 
-        loginPanel = new JPanel(new GridLayout(9, 2, 10, 30));
+        loginPanel = new JPanel(new GridLayout(8, 2, 10, 30));
         loginPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-        loginPanel.add(new JLabel(""));
-        loginPanel.add(new JLabel(""));
 
         loginPanel.add(new JLabel("               New user? Register here:"));
         registerButton = new JButton("Register");
@@ -35,17 +33,17 @@ public class AuthWindow {
         loginPanel.add(new JLabel(""));
         loginPanel.add(new JLabel(""));
 
-        JLabel l = new JLabel("                                           USER LOG-IN");
+        JLabel l = new JLabel("                         USER LOG-IN");
         loginPanel.add(l);
         l.setFont(new Font("Arial", Font.PLAIN, 24));
 
         loginPanel.add(new JLabel(""));
 
-        loginPanel.add(new JLabel("                                     Username:"));
+        loginPanel.add(new JLabel("                            Username:"));
         usernameField = new JTextField();
         loginPanel.add(usernameField);
 
-        loginPanel.add(new JLabel("                                     Password:"));
+        loginPanel.add(new JLabel("                            Password:"));
         passwordField = new JPasswordField();
         loginPanel.add(passwordField);
 
@@ -84,11 +82,10 @@ public class AuthWindow {
         registerButton.addActionListener(e -> {
             loginPanel.setVisible(false);
 
-            registerPanel = new JPanel(new GridLayout(9, 2, 10, 30));
+            registerPanel = new JPanel(new GridLayout(8, 2, 10, 30));
             registerPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-            registerPanel.add(new JLabel(""));
-            registerPanel.add(new JLabel(""));
+   
             registerPanel.add(new JLabel("               Already a user? Login here:"));
             loginButton = new JButton("Login");
             registerPanel.add(loginButton);
@@ -96,20 +93,20 @@ public class AuthWindow {
             registerPanel.add(new JLabel(""));
             registerPanel.add(new JLabel(""));
 
-            JLabel ll = new JLabel("                            USER REGISTRATION");
+            JLabel ll = new JLabel("             USER REGISTRATION");
             registerPanel.add(ll);
             ll.setFont(new Font("Arial", Font.PLAIN, 24));
             registerPanel.add(new JLabel(""));
 
-            registerPanel.add(new JLabel("                                      Username:"));
+            registerPanel.add(new JLabel("                            Username:"));
             regUsernameField = new JTextField();
             registerPanel.add(regUsernameField);
 
-            registerPanel.add(new JLabel("                                      Password:"));
+            registerPanel.add(new JLabel("                            Password:"));
             regPasswordField = new JPasswordField();
             registerPanel.add(regPasswordField);
 
-            registerPanel.add(new JLabel("                                      Confirm Password:"));
+            registerPanel.add(new JLabel("                            Confirm Password:"));
             confirmPasswordField = new JTextField();
             registerPanel.add(confirmPasswordField);
 

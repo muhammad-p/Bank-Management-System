@@ -1,6 +1,7 @@
 package model;
 
 public class UserAccount {
+    public static int userCount=0;
     public final String username;
     private String password;
     private double balance;
@@ -8,6 +9,7 @@ public class UserAccount {
     public UserAccount(String usr, String pass, double bal, long accNo)
     {
         username=usr; password=pass; balance=bal; accountNumber=accNo;
+        userCount++;
     }
     public String getUsername()
     {
@@ -42,7 +44,7 @@ public class UserAccount {
         this.accountNumber);
     }
 
-    public void setBalance(int amount) //amount value will be negative for withdrawals and transfer and positive for deposit
+    public void addToBalance(int amount) //amount value will be negative for withdrawals and transfer and positive for deposit
     {
         this.balance+=amount;
     }
