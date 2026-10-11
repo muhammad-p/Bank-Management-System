@@ -56,8 +56,9 @@ javac -d bin -sourcepath src src/**/*.java
 
 *Note: If your terminal shell does not support the recursive `**` wildcard, use the manual path format instead:*
 ```bash
-javac -d bin -sourcepath src src/service/*.java src/view/*.java src/model/*.java
+javac -d bin -sourcepath src src/service/*.java src/view/*.java src/model/*.java src/exception/*.java 
 ```
+
 
 ### 3. Run the Application
 The `Main` entry point belongs to the `service` package. To launch the application, specify the classpath (`bin`) and the fully qualified main class name:
