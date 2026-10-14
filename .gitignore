@@ -1,7 +1,6 @@
 
 # --- Compiled Java Files ---
 *.class
-*.jar
 *.war
 
 # --- macOS System Files ---
