@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.*;
+
+import exception.RequiredFieldsEmptyException;
 import model.UserAccount;
 import service.AuthService;
 import service.DashboardService;
@@ -114,7 +116,7 @@ public class DashboardWindow {
         withdrawLabel = new JLabel("                 Enter amount to withdraw: ");
         withdrawLabel.setFont(font);
         withdrawAmount = new JTextField();
-        withdrawButton = new JButton("Confirm");
+        withdrawButton = new JButton("Proceed");
         withdrawButton.setFocusPainted(false);
 
         withdrawPanel.add(new JLabel(""));
@@ -149,7 +151,7 @@ public class DashboardWindow {
         depositLabel = new JLabel("                  Enter amount to deposit:");
         depositLabel.setFont(font);
         depositAmount = new JTextField();
-        depositButton = new JButton("Confirm");
+        depositButton = new JButton("Proceed");
         depositPanel.add(new JLabel(""));
         depositPanel.add(new JLabel(""));
         depositPanel.add(new JLabel(""));
@@ -183,7 +185,7 @@ public class DashboardWindow {
         transferToLabel.setFont(font);
         transferToUser = new JTextField();
         transferAmount = new JTextField();
-        transferButton = new JButton("Confirm");
+        transferButton = new JButton("Proceed");
         transferButton.setFocusPainted(false);
 
         transferPanel.add(new JLabel(""));
@@ -253,6 +255,8 @@ public class DashboardWindow {
         withdrawButton.addActionListener(e -> {
             try {
                 String amount = withdrawAmount.getText();
+                if(amount.isEmpty())
+                    throw new RequiredFieldsEmptyException("Enter amount to withdraw");
                 boolean confirmed = showCustomConfirmDialog("Confirm Withdrawal",
                         "Are you sure you want to withdraw $" + amount + "?");
 
@@ -272,6 +276,8 @@ public class DashboardWindow {
         depositButton.addActionListener(e -> {
             try {
                 String amount = depositAmount.getText();
+                if(amount.isEmpty())
+                    throw new RequiredFieldsEmptyException("Enter amount to deposit.");
                 boolean confirmed = showCustomConfirmDialog("Confirm Deposit",
                         "Are you sure you want to deposit $" + amount + "?");
 
@@ -291,6 +297,8 @@ public class DashboardWindow {
             try {
                 String amount = transferAmount.getText();
                 String transferTo = transferToUser.getText();
+                if(amount.isEmpty() || transferTo.isEmpty())
+                    throw new RequiredFieldsEmptyException("Please enter amount to transfer and the username of the recipient.");
                 boolean confirmed = showCustomConfirmDialog("Confirm Transfer",
                         "Transfer $" + amount + " to recipient: " + transferTo + "?");
 
