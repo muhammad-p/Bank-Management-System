@@ -20,7 +20,7 @@ public class AuthService {
         String line;
 
         while ((line = br.readLine()) != null) {
-            if (line.trim().equals("")) //bug
+            if (line.trim().equals(""))
                 continue;
 
             String[] data = line.split(",");
@@ -54,9 +54,10 @@ public class AuthService {
 
         if(userCache.containsKey(username))
             throw new UserAlreadyExistsException("This username already exists. Please try again with a different one.");
-        boolean isDuplicate=false;
+        boolean isDuplicate;
         long newAccountNumber;
         do {
+            isDuplicate=false;
             newAccountNumber = 1_000_000_000L + (long)(Math.random() * 9_000_000_000L); 
             for(UserAccount existingUser: userCache.values() )
             {
