@@ -44,7 +44,12 @@ Run the following command in your terminal to locally clone the repository onto 
 git clone https://github.com/muhammad-p/Bank-Management-System.git
 ```
 
-### 2. Compile the Java Files
+### 2.Move into root folder of project
+```bash
+cd Bank-Management-System
+```
+
+### 3. Compile the Java Files
 >[!Important]
 >Make sure you are inside the root directory of the project before running the commands below.
 
@@ -60,7 +65,7 @@ javac -d bin -sourcepath src src/service/*.java src/view/*.java src/model/*.java
 ```
 
 
-### 3. Run the Application
+### 4. Run the Application
 The `Main` entry point belongs to the `service` package. To launch the application, specify the classpath (`bin`) and the fully qualified main class name:
 
 ```bash
