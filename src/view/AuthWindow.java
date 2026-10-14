@@ -1,3 +1,4 @@
+
 package view;
 
 import service.*;
@@ -13,10 +14,9 @@ public class AuthWindow {
     JFrame frame;
     JPanel loginPanel, registerPanel;
     JButton loginButton, registerButton;
-    JTextField usernameField,regUsernameField, confirmPasswordField;
+    JTextField usernameField, regUsernameField, confirmPasswordField;
     JPasswordField passwordField, regPasswordField;
     Font font = new Font("Arial", Font.PLAIN, 15);
-
 
     public AuthWindow(AuthService auth) {
         frame = new JFrame("Net-Banking");
@@ -26,10 +26,11 @@ public class AuthWindow {
         loginPanel = new JPanel(new GridLayout(8, 2, 10, 30));
         loginPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-        JLabel newUserLabel=new JLabel("            New user? Register here:");
+        JLabel newUserLabel = new JLabel("            New user? Register here:");
         newUserLabel.setFont(font);
         loginPanel.add(newUserLabel);
         registerButton = new JButton("Register");
+        registerButton.setFocusPainted(false);
         loginPanel.add(registerButton);
 
         loginPanel.add(new JLabel(""));
@@ -41,13 +42,13 @@ public class AuthWindow {
 
         loginPanel.add(new JLabel(""));
 
-        JLabel usernameLabel=new JLabel("                      Username:");
+        JLabel usernameLabel = new JLabel("                      Username:");
         usernameLabel.setFont(font);
         loginPanel.add(usernameLabel);
         usernameField = new JTextField();
         loginPanel.add(usernameField);
 
-        JLabel passwordLabel=new JLabel("                      Password:");
+        JLabel passwordLabel = new JLabel("                      Password:");
         passwordLabel.setFont(font);
         loginPanel.add(passwordLabel);
         passwordField = new JPasswordField();
@@ -57,6 +58,7 @@ public class AuthWindow {
         loginPanel.add(new JLabel(""));
         loginPanel.add(new JLabel(""));
         loginButton = new JButton("Login");
+        loginButton.setFocusPainted(false);
         loginPanel.add(loginButton);
 
         loginPanel.add(new JLabel(""));
@@ -73,9 +75,9 @@ public class AuthWindow {
 
             try {
 
-                UserAccount user=auth.loginUser(username, password);
+                UserAccount user = auth.loginUser(username, password);
                 frame.dispose();
-                new DashboardWindow(user,auth);
+                new DashboardWindow(user, auth);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, ex.getMessage(), "Login Failed", JOptionPane.ERROR_MESSAGE);
@@ -88,7 +90,7 @@ public class AuthWindow {
             registerPanel = new JPanel(new GridLayout(8, 2, 10, 30));
             registerPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-            JLabel loginUserLabel=new JLabel("               Already a user? Login here:");
+            JLabel loginUserLabel = new JLabel("               Already a user? Login here:");
             loginUserLabel.setFont(font);
             registerPanel.add(loginUserLabel);
             loginButton = new JButton("Login");
@@ -108,13 +110,13 @@ public class AuthWindow {
             regUsernameField = new JTextField();
             registerPanel.add(regUsernameField);
 
-            JLabel regPasswordLabel =new JLabel("                      Password:");
+            JLabel regPasswordLabel = new JLabel("                      Password:");
             regPasswordLabel.setFont(font);
             registerPanel.add(regPasswordLabel);
             regPasswordField = new JPasswordField();
             registerPanel.add(regPasswordField);
 
-            JLabel confirmPasswordLabel =new JLabel("                      Confirm Password:");
+            JLabel confirmPasswordLabel = new JLabel("                      Confirm Password:");
             confirmPasswordLabel.setFont(font);
             registerPanel.add(confirmPasswordLabel);
             confirmPasswordField = new JTextField();
