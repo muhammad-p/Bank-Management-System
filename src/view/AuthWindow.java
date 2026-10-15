@@ -6,68 +6,73 @@ import exception.*;
 import model.UserAccount;
 
 import javax.swing.*;
-
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
+import java.awt.event.*;
 
 public class AuthWindow {
     JFrame frame;
-    JPanel loginPanel, registerPanel;
+    JPanel loginPanel, registerPanel, contentPanel;
+    CardLayout cardLayout;
     JButton loginButton, registerButton;
     JTextField usernameField, regUsernameField, confirmPasswordField;
     JPasswordField passwordField, regPasswordField;
+    JLabel loginClickableLabel, registerClickableLabel;
     Font font = new Font("Arial", Font.PLAIN, 15);
 
     public AuthWindow(AuthService auth) {
-        frame = new JFrame("Net-Banking");
+        frame = new JFrame("User Authentication and Registration");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(500, 700);
+        frame.setResizable(false);
 
-        loginPanel = new JPanel(new GridLayout(8, 2, 10, 30));
-        loginPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        cardLayout = new CardLayout();
+        contentPanel = new JPanel(cardLayout);
 
-        JLabel newUserLabel = new JLabel("            New user? Register here:");
-        newUserLabel.setFont(font);
-        loginPanel.add(newUserLabel);
-        registerButton = new JButton("Register");
-        registerButton.setFocusPainted(false);
-        loginPanel.add(registerButton);
+        loginPanel = new JPanel(new GridLayout(11, 1, 0, 0));
+        loginPanel.setBorder(BorderFactory.createEmptyBorder(30, 70, 30, 70));
 
-        loginPanel.add(new JLabel(""));
-        loginPanel.add(new JLabel(""));
-
-        JLabel l = new JLabel("                         USER LOG-IN");
+        JLabel l = new JLabel("Sign in to your account:", SwingConstants.LEFT);
         loginPanel.add(l);
         l.setFont(new Font("Arial", Font.PLAIN, 24));
 
-        loginPanel.add(new JLabel(""));
-
-        JLabel usernameLabel = new JLabel("                      Username:");
+        JLabel usernameLabel = new JLabel("Username:");
         usernameLabel.setFont(font);
         loginPanel.add(usernameLabel);
         usernameField = new JTextField();
         loginPanel.add(usernameField);
 
-        JLabel passwordLabel = new JLabel("                      Password:");
+        JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setFont(font);
         loginPanel.add(passwordLabel);
         passwordField = new JPasswordField();
         loginPanel.add(passwordField);
 
         loginPanel.add(new JLabel(""));
-        loginPanel.add(new JLabel(""));
-        loginPanel.add(new JLabel(""));
-        loginButton = new JButton("Login");
+        loginButton = new JButton("Sign In");
         loginButton.setFocusPainted(false);
         loginPanel.add(loginButton);
 
         loginPanel.add(new JLabel(""));
-        loginPanel.add(new JLabel(""));
 
-        frame.add(loginPanel);
+        JPanel registerFlowLPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        JLabel newUserLabel = new JLabel("New user?");
+        newUserLabel.setFont(font);
+        registerClickableLabel = new JLabel("Register here");
+        registerClickableLabel.setFont(font);
+        registerClickableLabel.setForeground(Color.YELLOW);
+        registerClickableLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        registerFlowLPanel.add(newUserLabel);
+        registerFlowLPanel.add(registerClickableLabel);
+        loginPanel.add(registerFlowLPanel);
+
+        contentPanel.add(loginPanel, "login");
+        frame.add(contentPanel);
+        cardLayout.show(contentPanel, "login");
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         loginPanel.setVisible(true);
+
+        loginClickableLabel = new JLabel("Sign-In");//early instantiation to avoid null ptr exception by action listeners
 
         loginButton.addActionListener(e -> {
             String username = usernameField.getText();
@@ -84,93 +89,99 @@ public class AuthWindow {
             }
         });
 
-        registerButton.addActionListener(e -> {
-            loginPanel.setVisible(false);
+        registerClickableLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                registerPanel = new JPanel(new GridLayout(11, 1, 0, 0));
+                registerPanel.setBorder(BorderFactory.createEmptyBorder(30, 70, 30, 70));
 
-            registerPanel = new JPanel(new GridLayout(8, 2, 10, 30));
-            registerPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-            JLabel loginUserLabel = new JLabel("               Already a user? Login here:");
-            loginUserLabel.setFont(font);
-            registerPanel.add(loginUserLabel);
-            loginButton = new JButton("Login");
-            registerPanel.add(loginButton);
+                JLabel ll = new JLabel("Create your account:");
+                registerPanel.add(ll);
+                ll.setFont(new Font("Arial", Font.PLAIN, 24));
 
-            registerPanel.add(new JLabel(""));
-            registerPanel.add(new JLabel(""));
+                JLabel regUsernameLabel = new JLabel("Username:");
+                regUsernameLabel.setFont(font);
+                registerPanel.add(regUsernameLabel);
+                regUsernameField = new JTextField();
+                registerPanel.add(regUsernameField);
 
-            JLabel ll = new JLabel("             USER REGISTRATION");
-            registerPanel.add(ll);
-            ll.setFont(new Font("Arial", Font.PLAIN, 24));
-            registerPanel.add(new JLabel(""));
+                JLabel regPasswordLabel = new JLabel("Password:");
+                regPasswordLabel.setFont(font);
+                registerPanel.add(regPasswordLabel);
+                regPasswordField = new JPasswordField();
+                registerPanel.add(regPasswordField);
 
-            JLabel regUsernameLabel = new JLabel("                      Username:");
-            regUsernameLabel.setFont(font);
-            registerPanel.add(regUsernameLabel);
-            regUsernameField = new JTextField();
-            registerPanel.add(regUsernameField);
+                JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
+                confirmPasswordLabel.setFont(font);
+                registerPanel.add(confirmPasswordLabel);
+                confirmPasswordField = new JTextField();
+                registerPanel.add(confirmPasswordField);
 
-            JLabel regPasswordLabel = new JLabel("                      Password:");
-            regPasswordLabel.setFont(font);
-            registerPanel.add(regPasswordLabel);
-            regPasswordField = new JPasswordField();
-            registerPanel.add(regPasswordField);
+                registerPanel.add(new JLabel(""));
+                registerButton = new JButton("Register");
+                registerPanel.add(registerButton);
 
-            JLabel confirmPasswordLabel = new JLabel("                      Confirm Password:");
-            confirmPasswordLabel.setFont(font);
-            registerPanel.add(confirmPasswordLabel);
-            confirmPasswordField = new JTextField();
-            registerPanel.add(confirmPasswordField);
+                registerPanel.add(new JLabel(""));
+                JPanel loginFlowLPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+                JLabel loginLabel = new JLabel("Already have an account?");
+                loginLabel.setFont(font);
+                // loginClickableLabel = new JLabel("Sign-In");//already initialized inside the constructor
+                loginClickableLabel.setFont(font);
+                loginClickableLabel.setForeground(Color.YELLOW);
+                loginClickableLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                loginFlowLPanel.add(loginLabel);
+                loginFlowLPanel.add(loginClickableLabel);
+                registerPanel.add(loginFlowLPanel);
 
-            registerPanel.add(new JLabel(""));
-            registerPanel.add(new JLabel(""));
-            registerPanel.add(new JLabel(""));
-            registerButton = new JButton("Register");
-            registerPanel.add(registerButton);
 
-            frame.add(registerPanel);
-            frame.revalidate();
-            frame.repaint();
-            registerPanel.setVisible(true);
 
-            loginButton.addActionListener(e1 -> {
-                registerPanel.setVisible(false);
+                contentPanel.add(registerPanel, "register");
+                cardLayout.show(contentPanel, "register");
                 frame.revalidate();
                 frame.repaint();
-                loginPanel.setVisible(true);
 
-            });
-
-            registerButton.addActionListener(e2 -> {
-                String username = regUsernameField.getText();
-                char[] pass = regPasswordField.getPassword();
-                String password = new String(pass);
-                String confirmPassword = confirmPasswordField.getText();
-
-                try {
-                    if (!password.equals(confirmPassword)) {
-                        throw new PasswordsDoNotMatchException("Passwords do not match.");
+                registerButton.addActionListener(e2 -> {
+                    String username = regUsernameField.getText();
+                    char[] pass = regPasswordField.getPassword();
+                    String password = new String(pass);
+                    String confirmPassword = confirmPasswordField.getText();
+        
+                    try {
+                        if (!password.equals(confirmPassword)) {
+                            throw new PasswordsDoNotMatchException("Passwords do not match.");
+                        }
+        
+                        UserAccount newAccount = auth.registerUser(username, password);
+        
+                        JOptionPane.showMessageDialog(frame,
+                                "Successfully registered. You can now log-in.\nUsername is: " + username
+                                        + "\nAccount number: " + newAccount.getAccountNumber()
+                                        + "\n\nRedirecting to log-in pane...");
+                        cardLayout.show(contentPanel, "login");
+                        frame.revalidate();
+                        frame.repaint();
+        
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(frame, ex.getMessage(), "Registration Failed",
+                                JOptionPane.ERROR_MESSAGE);
                     }
+        
+                });
 
-                    UserAccount newAccount = auth.registerUser(username, password);
-
-                    JOptionPane.showMessageDialog(frame,
-                            "Successfully registered. You can now log-in.\nUsername is: " + username
-                                    + "\nAccount number: " + newAccount.getAccountNumber()
-                                    + "\n\nRedirecting to log-in pane...");
-                    registerPanel.setVisible(false);
-                    frame.revalidate();
-                    frame.repaint();
-                    loginPanel.setVisible(true);
-
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Registration Failed",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-
-            });
+            }
 
         });
+
+        loginClickableLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                cardLayout.show(contentPanel, "login");
+            }
+        });
+
+        
 
     }
 
