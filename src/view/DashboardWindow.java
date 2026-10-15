@@ -1,17 +1,11 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import javax.swing.*;
 
-import exception.RequiredFieldsEmptyException;
+import exception.*;
 import model.UserAccount;
-import service.AuthService;
-import service.DashboardService;
+import service.*;
 
 public class DashboardWindow {
     JFrame frame;
@@ -44,7 +38,7 @@ public class DashboardWindow {
         backButton.setPreferredSize(new Dimension(95, 42));
         northPanel.add(backButton);
         backButton.setVisible(false);
-        welcomeMessage = new JLabel("LOOK WHO's BACK... WELCOME " + user.getUsername() + "!");
+        welcomeMessage = new JLabel("WELCOME to NET-BANKING, " + user.getUsername() + "!");
         welcomeMessage.setFont(new Font("Arial", Font.PLAIN, 25));
         northPanel.add(welcomeMessage);
         balanceLabel.setVisible(false);
@@ -72,6 +66,8 @@ public class DashboardWindow {
 
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         logOutButton = new JButton("Log-out");
+        logOutButton.setBackground(Color.GRAY);
+        logOutButton.setForeground(Color.BLACK);
         logOutButton.setFocusPainted(false);
         logOutButton.setPreferredSize(new Dimension(125, 50));
         southPanel.add(logOutButton);
@@ -113,7 +109,7 @@ public class DashboardWindow {
         // withdraw - card panel
 
         withdrawPanel = new JPanel(new GridLayout(0, 2));
-        withdrawLabel = new JLabel("                 Enter amount to withdraw: ");
+        withdrawLabel = new JLabel("                  Enter withdrawal amount: ");
         withdrawLabel.setFont(font);
         withdrawAmount = new JTextField();
         withdrawButton = new JButton("Proceed");
@@ -148,7 +144,7 @@ public class DashboardWindow {
         // deposit- card Panel
         depositPanel = new JPanel(new GridLayout(0, 2));
 
-        depositLabel = new JLabel("                  Enter amount to deposit:");
+        depositLabel = new JLabel("                  Enter amount to be deposited:");
         depositLabel.setFont(font);
         depositAmount = new JTextField();
         depositButton = new JButton("Proceed");
@@ -179,7 +175,7 @@ public class DashboardWindow {
         // transfer card panel
         transferPanel = new JPanel(new GridLayout(0, 2));
 
-        transferAmountLabel = new JLabel("                  Enter amount to transfer:");
+        transferAmountLabel = new JLabel("                  Enter amount to be transferred:");
         transferToLabel = new JLabel("                  Enter username of the receiver:");
         transferAmountLabel.setFont(font);
         transferToLabel.setFont(font);
@@ -257,10 +253,10 @@ public class DashboardWindow {
                 String amount = withdrawAmount.getText();
                 if(amount.isEmpty())
                     throw new RequiredFieldsEmptyException("Enter amount to withdraw");
-                boolean confirmed = showCustomConfirmDialog("Confirm Withdrawal",
-                        "Are you sure you want to withdraw $" + amount + "?");
+                int  confirmed = JOptionPane.showConfirmDialog(centerPanel, "Are you sure you want to withdraw $"+amount+" ?", 
+                "Confirm Deposit",JOptionPane.YES_NO_OPTION ,JOptionPane.QUESTION_MESSAGE);
 
-                if (confirmed) {
+                if (confirmed==JOptionPane.YES_OPTION) {
                     dashboardService.withdraw(amount);
                     balanceLabel.setText("            Balance: " + user.getBalance() + " $ (USD)");
                     withdrawAmount.setText("");
@@ -277,11 +273,11 @@ public class DashboardWindow {
             try {
                 String amount = depositAmount.getText();
                 if(amount.isEmpty())
-                    throw new RequiredFieldsEmptyException("Enter amount to deposit.");
-                boolean confirmed = showCustomConfirmDialog("Confirm Deposit",
-                        "Are you sure you want to deposit $" + amount + "?");
+                    throw new RequiredFieldsEmptyException("Enter amount to be deposited.");
+                int  confirmed = JOptionPane.showConfirmDialog(centerPanel, "Are you sure you want to deposit $"+amount+" ?", 
+                "Confirm Deposit",JOptionPane.YES_NO_OPTION ,JOptionPane.QUESTION_MESSAGE);
 
-                if (confirmed) {
+                if (confirmed==JOptionPane.YES_OPTION) {
                     dashboardService.deposit(amount);
                     balanceLabel.setText("            Balance: " + user.getBalance() + " $ (USD)");
                     depositAmount.setText("");
@@ -298,11 +294,11 @@ public class DashboardWindow {
                 String amount = transferAmount.getText();
                 String transferTo = transferToUser.getText();
                 if(amount.isEmpty() || transferTo.isEmpty())
-                    throw new RequiredFieldsEmptyException("Please enter amount to transfer and the username of the recipient.");
-                boolean confirmed = showCustomConfirmDialog("Confirm Transfer",
-                        "Transfer $" + amount + " to recipient: " + transferTo + "?");
+                    throw new RequiredFieldsEmptyException("Enter amount to transfer and the username of the recipient.");
+                int  confirmed = JOptionPane.showConfirmDialog(centerPanel, "Transfer $" + amount + " to recipient: " + transferTo + "?", 
+                "Confirm Transfer",JOptionPane.YES_NO_OPTION ,JOptionPane.QUESTION_MESSAGE);
 
-                if (confirmed) {
+                if (confirmed==JOptionPane.YES_OPTION) {
                     dashboardService.transfer(transferTo, amount);
                     balanceLabel.setText("            Balance: " + user.getBalance() + " $ (USD)");
                     transferAmount.setText("");
@@ -321,42 +317,5 @@ public class DashboardWindow {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-    }
-
-    private boolean showCustomConfirmDialog(String title, String message) {
-        JDialog dialog = new JDialog(frame, title, true);
-        dialog.setLayout(new BorderLayout(15, 15));
-        dialog.setSize(380, 160);
-        dialog.setLocationRelativeTo(frame);
-
-        JLabel msgLabel = new JLabel(message, SwingConstants.CENTER);
-        msgLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        dialog.add(msgLabel, BorderLayout.CENTER);
-
-        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
-        JButton yesBtn = new JButton("Yes");
-        JButton noBtn = new JButton("No");
-
-        yesBtn.setFocusPainted(false);
-        noBtn.setFocusPainted(false);
-
-        final boolean[] confirmed = new boolean[1];
-
-        yesBtn.addActionListener(e -> {
-            confirmed[0] = true;
-            dialog.dispose();
-        });
-
-        noBtn.addActionListener(e -> {
-            confirmed[0] = false;
-            dialog.dispose();
-        });
-
-        btnPanel.add(yesBtn);
-        btnPanel.add(noBtn);
-        dialog.add(btnPanel, BorderLayout.SOUTH);
-
-        dialog.setVisible(true);
-        return confirmed[0];
     }
 }
