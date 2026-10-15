@@ -29,7 +29,7 @@ public class DashboardWindow {
         DashboardService dashboardService = new DashboardService(user, auth);
 
         frame = new JFrame("Dashboard");
-        frame.setSize(800, 600);
+        frame.setSize(800, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainDashboardPanel = new JPanel(new BorderLayout(15, 15));
         mainDashboardPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 25, 30));
