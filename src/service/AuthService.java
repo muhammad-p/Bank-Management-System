@@ -53,7 +53,7 @@ public class AuthService {
             throw new RequiredFieldsEmptyException("Please fill in all fields.");
 
         if(userCache.containsKey(username))
-            throw new UserAlreadyExistsException("This username already exists. Please try again with a different one.");
+            throw new UserAlreadyExistsException("This username is not available; try another.");
         boolean isDuplicate;
         long newAccountNumber;
         do {
