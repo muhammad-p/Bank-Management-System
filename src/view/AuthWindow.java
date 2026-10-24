@@ -20,7 +20,7 @@ public class AuthWindow {
     Font font = new Font("Arial", Font.PLAIN, 15);
 
     public AuthWindow(AuthService auth) {
-        frame = new JFrame("User Authentication and Registration");
+        frame = new JFrame("Sign-in / Sign-up");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 700);
         frame.setResizable(false);
@@ -30,6 +30,9 @@ public class AuthWindow {
 
         loginPanel = new JPanel(new GridLayout(11, 1, 0, 0));
         loginPanel.setBorder(BorderFactory.createEmptyBorder(30, 70, 30, 70));
+
+        loginPanel.add(new JLabel(""));
+
 
         JLabel l = new JLabel("Sign in to your account:", SwingConstants.LEFT);
         loginPanel.add(l);
@@ -71,6 +74,9 @@ public class AuthWindow {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         loginPanel.setVisible(true);
+
+        //setting default button as log in so enter key can be used 
+        frame.getRootPane().setDefaultButton(loginButton);
 
         loginClickableLabel = new JLabel("Sign-In");//early instantiation to avoid null ptr exception by action listeners
 
@@ -141,6 +147,9 @@ public class AuthWindow {
                 frame.revalidate();
                 frame.repaint();
 
+                //setting default button as sign up so enter key can be used
+                frame.getRootPane().setDefaultButton(registerButton);
+
                 registerButton.addActionListener(e2 -> {
                     String username = regUsernameField.getText();
                     char[] pass = regPasswordField.getPassword();
@@ -177,6 +186,8 @@ public class AuthWindow {
             @Override
             public void mouseClicked(MouseEvent e)
             {
+                //setting default button as log in so enter key can be used to press it
+                frame.getRootPane().setDefaultButton(loginButton);
                 cardLayout.show(contentPanel, "login");
             }
         });
